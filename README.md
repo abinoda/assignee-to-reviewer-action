@@ -4,7 +4,7 @@ If your team currently uses pull request Assignees but would like to switch to  
 
 ## Usage
 
-This Action is used by subscribing to [Issues events](https://developer.github.com/v3/activity/events/types/#issuesevent) which are triggered whenever Assigness are added or removed.
+This Action subscribes to [Pull request events](https://developer.github.com/v3/activity/events/types/#pullrequestevent) which fire whenever users are assigned or unassigned to pull requests.
 
 ```workflow
 workflow "Assign reviewers based on assignees" {
