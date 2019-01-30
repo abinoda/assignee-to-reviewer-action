@@ -1,7 +1,7 @@
 FROM debian:9.6-slim
 
 LABEL "com.github.actions.name"="GitHub Action for Assignee to Reviewer"
-LABEL "com.github.actions.description"="Create review rrequests based on assignees."
+LABEL "com.github.actions.description"="Create review requests based on assignees."
 LABEL "com.github.actions.icon"="arrow-up-right"
 LABEL "com.github.actions.color"="white"
 
