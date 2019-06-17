@@ -23,6 +23,12 @@ action=$(jq --raw-output .action "$GITHUB_EVENT_PATH")
 number=$(jq --raw-output .pull_request.number "$GITHUB_EVENT_PATH")
 assignee=$(jq --raw-output .assignee.login "$GITHUB_EVENT_PATH")
 
+# Github Actions will mark a check as "neutral" (neither failed/succeeded) when you exit with code 78
+# But this will terminate any other Actions running in parallel in the same workflow.
+# Configuring this Environment Variable `REVIEWERS_UNMODIFIED_EXIT_CODE=0` if no branch was deleted will let your workflow continue.
+# Docs: https://developer.github.com/actions/creating-github-actions/accessing-the-runtime-environment/#exit-codes-and-statuses
+REVIEWERS_UNMODIFIED_EXIT_CODE=${REVIEWERS_UNMODIFIED_EXIT_CODE:-78}
+
 update_review_request() {
   curl -sSL \
     -H "Content-Type: application/json" \
@@ -39,5 +45,5 @@ elif [[ "$action" == "unassigned" ]]; then
   update_review_request 'DELETE'
 else
   echo "Ignoring action ${action}"
-  exit 78
+  exit "$REVIEWERS_UNMODIFIED_EXIT_CODE"
 fi
