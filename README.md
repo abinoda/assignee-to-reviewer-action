@@ -18,11 +18,10 @@ action "Assignee to reviewer" {
     "GITHUB_TOKEN"
   ]
 
-  # add this line if you want to continue running parrallel github actions even if this action is skipped/not needed
+  # add this line if you want to continue running parallel github actions even if this action is skipped/not needed
   env = {
     REVIEWERS_UNMODIFIED_EXIT_CODE = "0"
   }
-}
 }
 ```
 
