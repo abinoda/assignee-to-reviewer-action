@@ -7,7 +7,7 @@ if [[ -z "$GITHUB_TOKEN" ]]; then
 fi
 
 if [[ -z "$GITHUB_EVENT_NAME" ]]; then
-  echo "Set the GITHUB_REPOSITORY env variable."
+  echo "Set the GITHUB_EVENT_NAME env variable."
   exit 1
 fi
 
@@ -22,12 +22,6 @@ AUTH_HEADER="Authorization: token ${GITHUB_TOKEN}"
 action=$(jq --raw-output .action "$GITHUB_EVENT_PATH")
 number=$(jq --raw-output .pull_request.number "$GITHUB_EVENT_PATH")
 assignee=$(jq --raw-output .assignee.login "$GITHUB_EVENT_PATH")
-
-# Github Actions will mark a check as "neutral" (neither failed/succeeded) when you exit with code 78
-# But this will terminate any other Actions running in parallel in the same workflow.
-# Configuring this Environment Variable `REVIEWERS_UNMODIFIED_EXIT_CODE=0` if no reviewer was added or deleted.
-# Docs: https://developer.github.com/actions/creating-github-actions/accessing-the-runtime-environment/#exit-codes-and-statuses
-REVIEWERS_UNMODIFIED_EXIT_CODE=${REVIEWERS_UNMODIFIED_EXIT_CODE:-78}
 
 update_review_request() {
   curl -sSL \
@@ -45,5 +39,5 @@ elif [[ "$action" == "unassigned" ]]; then
   update_review_request 'DELETE'
 else
   echo "Ignoring action ${action}"
-  exit "$REVIEWERS_UNMODIFIED_EXIT_CODE"
+  exit 0
 fi
