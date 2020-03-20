@@ -4,26 +4,26 @@ If your team currently uses pull request assignees but would like to switch to  
 
 ## Usage
 
-This Action subscribes to [Pull request events](https://help.github.com/en/articles/events-that-trigger-workflows#pull-request-event-pull_request) specifically the `assigned` and `unassigned` events which fire whenever users are assigned or unassigned to pull requests.
+This Action subscribes to [Pull request events](https://developer.github.com/v3/activity/events/types/#pullrequestevent) which fire whenever users are assigned or unassigned to pull requests.
 
 ```workflow
-name: Assign reviewers based on assignees
-on:
-  pull_request:
-    types: [assigned, unassigned]
+workflow "Assign reviewers based on assignees" {
+  on = "pull_request"
+  resolves = ["Assignee to reviewer"]
+}
 
-jobs:
-  assignee_to_reviewer:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Assignee to Reviewer
-        uses: pullreminders/assignee-to-reviewer-action@v1.0.4
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+action "Assignee to reviewer" {
+  uses = "pullreminders/assignee-to-reviewer-action@master"
+  secrets = [
+    "GITHUB_TOKEN"
+  ]
 
+  # add this line if you want to continue running parallel github actions even if this action is skipped/not needed
+  env = {
+    REVIEWERS_UNMODIFIED_EXIT_CODE = "0"
+  }
+}
 ```
-
-Note that the workflow for `pull_request` events will be triggered by default only for `opened`, `synchronize` or `reopened` activity types. For other, events the `types` keyword must be used.
 
 ## Demo
 
