@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Assignee to Reviewer
-        uses: pullreminders/assignee-to-reviewer-action@v1.0.4
+        uses: abinoda/assignee-to-reviewer-action@v1.0.4
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -27,7 +27,7 @@ Note that the workflow for `pull_request` events will be triggered by default on
 
 ## Demo
 
-<img src="https://github.com/pullreminders/assignee-to-reviewer-action/raw/master/docs/images/example.png" width="540">
+<img src="https://github.com/abinoda/assignee-to-reviewer-action/raw/master/docs/images/example.png" width="540">
 
 ## License
 
